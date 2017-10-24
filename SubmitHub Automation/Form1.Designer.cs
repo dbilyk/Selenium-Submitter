@@ -35,7 +35,7 @@
             // 
             // ResumeCampaign
             // 
-            this.ResumeCampaign.Location = new System.Drawing.Point(15, 255);
+            this.ResumeCampaign.Location = new System.Drawing.Point(16, 40);
             this.ResumeCampaign.Name = "ResumeCampaign";
             this.ResumeCampaign.Size = new System.Drawing.Size(114, 23);
             this.ResumeCampaign.TabIndex = 0;
@@ -64,7 +64,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(330, 290);
+            this.ClientSize = new System.Drawing.Size(330, 97);
             this.Controls.Add(this.BlogSentCounter);
             this.Controls.Add(this.BlogsSubmittedTo);
             this.Controls.Add(this.ResumeCampaign);

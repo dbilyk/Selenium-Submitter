@@ -34,7 +34,7 @@ namespace SubmitHub_Automation
         {
             ChromeOptions opts = new ChromeOptions();
             opts.AddArgument("test-type");
-            opts.AddArgument("start-maximized");
+            opts.AddArgument("--start-maximized");
             opts.AddExcludedArgument("ignore-certificate-errors");
             opts.AddArgument("user-data-dir='C:/Users/Dmitri/SeleniumTesting/ChromeProfile'");
             opts.ToCapabilities();
@@ -43,11 +43,11 @@ namespace SubmitHub_Automation
             chrome.LogPath = "seleniumChrome.log";
             chrome.EnableVerboseLogging = true;
             chrome.HideCommandPromptWindow = true;
-
-            IWebDriver browse = new ChromeDriver(@"C:\Dropbox\Code Projects\Visual Studio Projects\Selenium DotNet 3.6\chrome", opts);
+            
+            IWebDriver browse = new ChromeDriver(@"C:\Users\DB\Dropbox\Code Projects\Visual Studio Projects\Selenium DotNet 3.6\chrome", opts);
+            
             Console.WriteLine();
-            browse.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 30);
-            browse.Manage().Window.Maximize();
+            
             return browse;
         }
 
@@ -58,30 +58,42 @@ namespace SubmitHub_Automation
             if (!browserInitialized)
             {
                 browser = BrowserInit();
+                
+                browser.Manage().Timeouts().ImplicitWait = new TimeSpan(0, 0, 30);
+                browser.Navigate().GoToUrl("https://www.submithub.com/campaigns");
+                await WaitASec();
+
+                browser.FindElement(By.XPath("//*[@id='login-sign-in-link']")).Click();
+                await WaitASec();
+                browser.FindElement(By.XPath("//*[@id='login-username-or-email']")).SendKeys("biographer.info@gmail.com");
+                await WaitASec();
+                browser.FindElement(By.XPath("//*[@id='login-password']")).SendKeys("B!0graph3r");
+                await WaitASec();
+                browser.FindElement(By.XPath("//*[@id='login-buttons-password']")).Click();
+                await WaitASec();
                 browserInitialized = true;
             }
-            
+            IJavaScriptExecutor browserJS = (IJavaScriptExecutor)browser;
+
             browser.Navigate().GoToUrl("https://www.submithub.com/campaigns");
             await WaitASec();
 
-            browser.FindElement(By.XPath("//*[@id='login-sign-in-link']")).Click();
-            await WaitASec();
-            browser.FindElement(By.XPath("//*[@id='login-username-or-email']")).SendKeys("biographer.info@gmail.com");
-            await WaitASec();
-            browser.FindElement(By.XPath("//*[@id='login-password']")).SendKeys("B!0graph3r");
-            await WaitASec();
-            browser.FindElement(By.XPath("//*[@id='login-buttons-password']")).Click();
-            await WaitASec();
             //click on the most recently run campaign
             browser.FindElement(By.TagName("tbody")).FindElement(By.TagName("tr")).FindElement(By.TagName("td")).FindElement(By.TagName("a")).Click();
             await WaitASec();
             browser.FindElement(By.ClassName("new-campaign")).Click();
-            await WaitASec();
+            await WaitASec();        
             browser.FindElement(By.XPath("//*[@id='submit-credit-options']/div[2]/div[1]/div/div[2]/label")).Click();
             await WaitASec();
-            browser.FindElement(By.XPath("//*[@id='submit-wrapper']/div[1]/div[3]/div")).Click();
+
+            IWebElement sub1 = browser.FindElement(By.XPath("//*[@id='submit-wrapper']/div[1]/div[3]/div"));
+            browserJS.ExecuteScript("arguments[0].scrollIntoView(true)",sub1);
+            sub1.Click();
+            
             await WaitASec();
-            browser.FindElement(By.XPath("//*[@id='submit-wrapper']/div[2]/div[2]/div[1]")).Click();
+            IWebElement sub2 = browser.FindElement(By.XPath("//*[@id='submit-wrapper']/div[2]/div[2]/div[1]"));
+            browserJS.ExecuteScript("arguments[0].scrollIntoView(true)", sub2);
+            sub2.Click();
             await WaitASec();
            
             //select genre checks
@@ -95,6 +107,7 @@ namespace SubmitHub_Automation
             //genreChecks.Add(browser.FindElement(By.Id("post-rock")));
             foreach (IWebElement elem in genreChecks)
             {
+                browserJS.ExecuteScript("arguments[0].scrollIntoView(true)", elem);
                 elem.Click();
                 await WaitASec();
 
@@ -108,6 +121,8 @@ namespace SubmitHub_Automation
                 Console.WriteLine("on table row number: " + i);
                 if (FilteredBlogs[i].FindElements(By.XPath("./td[1]/div/label/div/div[2]")).Count == 0 )
                 {
+                    browserJS.ExecuteScript("arguments[0].scrollIntoView(true)", FilteredBlogs[i]);
+                    browserJS.ExecuteScript("scrollBy(0,-200)");
                     FilteredBlogs[i].FindElement(By.XPath("./td[1]/div/label/div[1]")).Click();
                     await WaitASec();
                     submissionCounter += 1;
