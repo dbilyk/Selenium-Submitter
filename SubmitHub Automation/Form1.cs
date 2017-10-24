@@ -101,7 +101,7 @@ namespace SubmitHub_Automation
             //selects all blogs in list that arent hidden
             List<IWebElement> FilteredBlogs = browser.FindElements(By.CssSelector("tbody tr:not([style = 'display: none;'])")).ToList();
             Console.WriteLine(FilteredBlogs.Count());
-            //checks if blog has "already submitted" div and if not, checks the box
+            //checks if blog has "already submitted" div and if not, checks the box and stuff
             for (int i =0;i<FilteredBlogs.Count;i++)
             {
                 Console.WriteLine("on table row number: " + i);
