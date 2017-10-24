@@ -38,7 +38,8 @@ namespace SubmitHub_Automation
             opts.AddExcludedArgument("ignore-certificate-errors");
             opts.AddArgument("user-data-dir='C:/Users/Dmitri/SeleniumTesting/ChromeProfile'");
             opts.ToCapabilities();
-            ChromeDriverService chrome = ChromeDriverService.CreateDefaultService(@"C:\Dropbox\Code Projects\Visual Studio Projects\Selenium DotNet 3.6\chrome");
+            ChromeDriverService chrome = ChromeDriverService.CreateDefaultService(@"C:\Users\DB\Dropbox\Code Projects\Visual Studio Projects\Selenium DotNet 3.6\chrome");
+            
             chrome.LogPath = "seleniumChrome.log";
             chrome.EnableVerboseLogging = true;
             chrome.HideCommandPromptWindow = true;
